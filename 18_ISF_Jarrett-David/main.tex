@@ -45,9 +45,9 @@ Probabilistic forecasting is a quickly growing research topic in the field of en
 
 \section{Introduction}
 %background of ng forecating, importance, extreme events...
-Natural gas Local Distribution Companies (LDCs) need to provide steady flow to their customers. It is important for these LDCs to be able to forecast future demand, as to be able to reserve and send out an appropriate amount of Natural Gas. With a large portion of Natural Gas usage being for spatial heating, Natural Gas Demand is highly weather dependent \cite{vitullo2009mathematical}. Extreme cold events stress the limits of the distribution system, as this is often when natural gas demand is at its maximum. The \textbf{Design Day} is the hypothetical day when temperatures break a [standard/set/?] extreme cold threshold. The Design Day condition is the temperature of an extreme event that only occurs once in N years. The Design Day demand is the natural gas demand that is forecasted to occur on a day with the Design Day condition. This is the demand that the LDC [should be able to supply? regularly supply up to? ]. 
+Natural gas Local Distribution Companies (LDCs) need to provide steady flow to their customers. It is important for these LDCs to be able to forecast future demand, as to be able to reserve and send out an appropriate amount of Natural Gas. With a large portion of Natural Gas usage being for spatial heating, Natural Gas Demand is highly weather dependent \cite{vitullo2009mathematical}. Extreme cold events stress the limits of the distribution system, as this is often when natural gas demand is at its maximum. The \textbf{Design Day} is the hypothetical day when temperatures break a given extreme cold threshold. The Design Day condition is the temperature of an extreme event that only occurs once in N years. The Design Day demand is the natural gas demand that is forecasted to occur on a day with the Design Day condition. This is the demand that the LDC should be able to supply up to. 
 
-Probabilistic forecasting methods capture . Probabilistic forecasts of extreme events are advantageous as they reflect the inherent uncertainty of extreme event forecasting, while giving [end users(of forecasts)] the information needed to make [system-wide] decisions \cite{murphy1991probabilities}.
+Probabilistic forecasting methods offer an appropriate model to forecast extreme events, since they are characterized as only happening once in n years. Probabilistic forecasts of extreme events are advantageous as they reflect the inherent uncertainty of extreme event forecasting, while giving forecast end users the information needed to make system-wide decisions \cite{murphy1991probabilities}.
 
 
 \section{Background}
@@ -57,18 +57,27 @@ evt\cite{kotz2000extreme}
 
 
 %extremal quantile regression
-Quantile regression is a method for regressing on different portions (quantiles) of the probability density function of a response variable \cite{koenker1978regression}. This allows for accurate forecasting of specific conditions that [are not weighted by the average behavior of the system]. Extremal Quantile Regression fully extends this concept to the tails of a distribution. 
+Quantile regression is a method for regressing on different portions (quantiles) of the probability density function of a response variable \cite{koenker1978regression}. This allows for accurate modelling of specific conditions in a way that is not heavily weighted by the average behavior of the system, as in normal linear regression. [Quantile Regression takes the following form: describe in steps or something, get mathy with it, look at Master CO's thesis]
+
+
+Extremal Quantile Regression fully extends the concept of quantile regression to the extreme tails of a distribution. [less math needed here, just couple more sentences about ex qua regx]
 
 ex quant reg \cite{chernozhukov2005extremal}
 ex quant other ref \cite{wang2012estimation}
 
 \section{Methods}
 
-We estimate the 99.38\^{th} quantile of flow, given temperature. We start with a quantile regression model of demand and flow and make the following 4 adjustments. First, we address the non-linear relationship between temperature and flow. Second, we account for our desire for performance during extreme cold days. Third, we address to challenge of modeling an extremely high quantile. Fourth, we account for the long term out of sample uncertainty.
+We estimate the 99.38\^{th} quantile of flow, given temperature. We start with a quantile regression model of demand and flow, making the following 4 adjustments. First, we address the non-linear relationship between temperature and flow. Second, we account for our desire for performance during extreme cold days. Third, we address to challenge of modeling an extremely high quantile. Fourth, we account for the long term out of sample uncertainty.
 
 \subsection{Non-Linear relationship between Temperature and Flow}
 
-As seen in Figure \ref{fig:scatterTempAndFlow}, there is a non-linear relationship between temperature and flow. Typically, this relationship is accounted for by transforming temperature into heating degree days (equation \ref{eqn:hdd}). Heating degree days allow us to assume temperature independence from flow at warm temperatures and linear temperature dependence at colder temperatures. However, it does not account for the bias shift in uncertainty around 65 degrees F. Rather than using an indicator variable to represent temperatures colder than 65 degrees F, we ignore all temperatures warmer than 50 degrees F. Conveniently, we are only concerned about the coldest temperatures, so removing the warm temperatures does not bother us.
+As seen in Figure \ref{fig:scatterTempAndFlow}, there is a non-linear relationship between temperature and flow. Typically, this relationship is accounted for by transforming temperature into heating degree days (HDD), based on a reference Temperature. This transformation can be seen in Equation \ref{eqn:hdd}. 
+\begin{equation}
+    HDD= T_{Reference}-T_{Current}
+    \label{eqn:hdd}
+\end{equation}
+
+Heating degree days allow us to assume temperature independence from flow at warm temperatures and linear temperature dependence at colder temperatures. However, it does not account for the bias shift in uncertainty around 65 degrees F. Rather than using an indicator variable to represent temperatures colder than 65 degrees F, we ignore all temperatures warmer than 50 degrees F. Conveniently, we are only concerned about the coldest temperatures, so removing the warm temperatures does not bother us.
 
 \subsection{Performing Well on Cold Days}
 
@@ -80,11 +89,11 @@ After removing the warm days, we have significantly less data. We would like to 
 
 \subsection{Estimating Extreme High Quantiles}
 
-When estimating extreme high quantiles, you are like to get some wild results. At high enough quantiles with little data, quantile regression will fit a line through the two most extreme outliers (given a 2 parameter model). We have already mitigated this by weighting the optimization rather than removing non-extreme cold data. We further mitigate this by using composite quantile regression (also known as weighted quantile regression, or Hogg's method). Composite quantile regression allows us to determine the temperature parameter using less extreme quantiles, leaving only the bias parameter to be determined for the extreme high quantile.
+When estimating in the extreme quantiles, you are like to get some wild results. At high enough quantiles with little data, quantile regression will fit a line through the two most extreme outliers (given a 2 parameter model). We have already begun to mitigate this by weighting the optimization of the coldest points rather than removing non-extreme cold data. We further account for this by using composite quantile regression (also known as weighted quantile regression, or Hogg's method \cite{}). Composite quantile regression allows us to determine the temperature parameter using less extreme quantiles, leaving only the bias parameter to be determined for the extreme high quantile.
 
 \subsection{Long Term Out Of Sample Uncertainty}
 
-It is well known that errors are greater in magnitude for out-of-sample testing than in-sample testing. Since we are forecasting the quantile for the following year, we need to adjust based on out-of-sample uncertainty. We first train (detrend data and perform quantile regression) our model on a single year of data. We then validate on a single year of data and re-fit the bias term based on the residuals. We record the change in the bias term. This process is repeated using the first two years as a training set and the third as a validation set, then again until the last year of data is used as the validation set. We determine the mean absolute change of the bias term. Finally, we fit a model to all of the data. We add the mean absolute change to the bias term in order to account for the out-of-sample uncertainty.
+It is well known that errors are greater in magnitude for out-of-sample testing than in-sample testing [does this need a cite?]. Since we are forecasting the quantile for the following year, we need to adjust based on out-of-sample uncertainty. We first train (detrend data and perform quantile regression) our model on a single year of data. We then validate on a single year of data and re-fit the bias term based on the residuals. We record the change in the bias term. This process is repeated using the first two years as a training set and the third as a validation set, then again until the last year of data is used as the validation set. We determine the mean absolute change of the bias term. Finally, we fit a model to all of the data. We add the mean absolute change to the bias term in order to account for the out-of-sample uncertainty.
 
 \section{Results}
 
