@@ -81,24 +81,32 @@ Heating degree days allow us to assume temperature independence from flow at war
 
 \subsection{Performing Well on Cold Days}
 
-After removing the warm days, we have significantly less data. We would like to model the demand on the coldest days, but we lack enough data to do so. We assume the remaining data can give us information about demand on the coldest days, but we know that our coldest data is best. We therefore weigh the Pinball Loss by temperature in the quantile regression optimization. This is done by adjusting the A matrix in the linear programming problem accordingly:
+After removing the warm days, we have significantly less data. We would like to model the demand on the coldest days, but we lack enough data to do so. We assume the remaining data can give us information about demand on the coldest days, but we know that our coldest data is best. We therefore weigh the Pinball Loss by temperature in the quantile regression optimization. This is done by sorting pinball loss vector by temperature (the first index is the warmest temperature) and adjusting each element $i$ in the vector of length $N$ accordingly:
 
 \begin{equation}
-    asdf = 1;
+    AdustedPinball_i = SortedPinball_i \times (1 + \frac{i}{N}).
 \end{equation}
+
+The adjusted pinball loss on the coldest day is now weighted twice as heavy as the warmest day. When minimizing the adjusted pinball loss a quantile will be fit better to the coldest days.
+
 
 \subsection{Estimating Extreme High Quantiles}
 
 When estimating in the extreme quantiles, you are like to get some wild results. At high enough quantiles with little data, quantile regression will fit a line through the two most extreme outliers (given a 2 parameter model). We have already begun to mitigate this by weighting the optimization of the coldest points rather than removing non-extreme cold data. We further account for this by using composite quantile regression (also known as weighted quantile regression, or Hogg's method \cite{}). Composite quantile regression allows us to determine the temperature parameter using less extreme quantiles, leaving only the bias parameter to be determined for the extreme high quantile.
 
-\subsection{Long Term Out Of Sample Uncertainty}
+\subsection{Long Term Out Of Sample Uncertainty} \label{longterm}
 
 It is well known that errors are greater in magnitude for out-of-sample testing than in-sample testing [does this need a cite?]. Since we are forecasting the quantile for the following year, we need to adjust based on out-of-sample uncertainty. We first train (detrend data and perform quantile regression) our model on a single year of data. We then validate on a single year of data and re-fit the bias term based on the residuals. We record the change in the bias term. This process is repeated using the first two years as a training set and the third as a validation set, then again until the last year of data is used as the validation set. We determine the mean absolute change of the bias term. Finally, we fit a model to all of the data. We add the mean absolute change to the bias term in order to account for the out-of-sample uncertainty.
 
 \section{Results}
 
+The experiment is run on the 100 most temperature sensitive datasets GasDay forecasts. The experiment is run in two folds. First, we hold out the 2017 heating season for testing and we train on all previous years. Second, we hold out the 2016 heating season for testing and train on all previous years.
 
+Our experiment reflects our goal; we need to estimate the quantile representing demand that is exceeded 0.62\% of days in a heating season. We therefore count the number of exceedances of the quantile in the test set. In particular, we want to coldest days in winter. We therefore limit our analysis to the 10\% coldest days of the test set.
 
+% make table
+
+ In total, our method incurs --\% of the expected exceedances. For the sake of evaluating the strategy for dealing with long-term out of sample uncertainty described in Section \ref{longterm}, we evaluated our experiment absent of said strategy. The result showed our bounds unreasonably tight with over 200\% of the expected exceedances.
 
 \section{Conclusion}
 
