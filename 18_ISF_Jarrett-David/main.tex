@@ -51,31 +51,29 @@ Probabilistic forecasting methods offer an appropriate model to forecast extreme
 
 
 \section{Background}
-as a binary event\cite{toth2003probability}
-%extreme value theory
-evt\cite{kotz2000extreme}
-
 
 %extremal quantile regression
-Quantile regression is a method for regressing on different portions (quantiles) of the probability density function of a response variable \cite{koenker1978regression}. This allows for accurate modelling of specific conditions in a way that is not heavily weighted by the average behavior of the system, as in normal linear regression. [Quantile Regression takes the following form: describe in steps or something, get mathy with it, look at Master CO's thesis]
+Quantile regression is a method for predicting the cumulative density function of a response variable conditional on a predictor variable \cite{koenker1978regression}. For example, quantile regression can answer the question: what is the demand that has 10 percent chance of being exceeded given temperature is 20 \textsuperscript{o}F? The relationship between the response variable and the predictor variable for a given quantile (i.e., 10 percent chance of being exceeded) can be found by minimizing the pinball loss function - typically through linear programming methods.
 
-
-Extremal Quantile Regression fully extends the concept of quantile regression to the extreme tails of a distribution. [less math needed here, just couple more sentences about ex qua regx]
-
-ex quant reg \cite{chernozhukov2005extremal}
-ex quant other ref \cite{wang2012estimation}
+Problems arise when we choose an extremely high (or low) quantile. Consider the situation where we want to predict the demand that will be exceeded 0.01 percent of the time for a given temperature. Perhaps we only have 100 data points on which to fit this relationship. That means we are fitting a line above every data point in our data set. In this case, using traditional quantile regression will not give us reasonable results. Extremal Quantile Regression extends the concept of quantile regression to the extreme tails of a distribution \cite{chernozhukov2005extremal}. One particularly useful method is introduced by Wang \cite{wang2012estimation}. The conditional relationship is assumed to be the same across higher quantiles. For example, the conditional relationship between demand and temperature is the same for the 90\textsuperscript{th} and 99\textsuperscript{th} quantiles. The only difference between these two quantiles is constant with temperature (i.e., a bias term). The bias term is determined using extreme value theory.
 
 \section{Methods}
 
-We estimate the 99.38\^{th} quantile of flow, given temperature. We start with a quantile regression model of demand and flow, making the following 4 adjustments. First, we address the non-linear relationship between temperature and flow. Second, we account for our desire for performance during extreme cold days. Third, we address to challenge of modeling an extremely high quantile. Fourth, we account for the long term out of sample uncertainty.
+We estimate the $99.38^{th}$ quantile of flow, given temperature. We start with a quantile regression model of demand and flow, making the following 4 adjustments. First, we address the non-linear relationship between temperature and flow. Second, we account for our desire for performance during extreme cold days. Third, we address to challenge of modeling an extremely high quantile. Fourth, we account for the long term out of sample uncertainty.
 
 \subsection{Non-Linear relationship between Temperature and Flow}
 
 As seen in Figure \ref{fig:scatterTempAndFlow}, there is a non-linear relationship between temperature and flow. Typically, this relationship is accounted for by transforming temperature into heating degree days (HDD), based on a reference Temperature. This transformation can be seen in Equation \ref{eqn:hdd}. 
 \begin{equation}
-    HDD= T_{Reference}-T_{Current}
+    HDD= \mbox{max}(0, T_{Reference}-T_{Current})
     \label{eqn:hdd}
 \end{equation}
+
+\begin{figure} \label{fig:scatterTempAndFlow}
+	\centering
+	\includegraphics[scale=0.4]{nonlinear.png}
+	\caption{Demand is non-linear with temperature. However, when temperature is less than 65 \textsuperscript{o}F it is approximately linear.}
+\end{figure}
 
 Heating degree days allow us to assume temperature independence from flow at warm temperatures and linear temperature dependence at colder temperatures. However, it does not account for the bias shift in uncertainty around 65 degrees F. Rather than using an indicator variable to represent temperatures colder than 65 degrees F, we ignore all temperatures warmer than 50 degrees F. Conveniently, we are only concerned about the coldest temperatures, so removing the warm temperatures does not bother us.
 
@@ -87,16 +85,21 @@ After removing the warm days, we have significantly less data. We would like to 
     AdustedPinball_i = SortedPinball_i \times (1 + \frac{i}{N}).
 \end{equation}
 
-The adjusted pinball loss on the coldest day is now weighted twice as heavy as the warmest day. When minimizing the adjusted pinball loss a quantile will be fit better to the coldest days.
+The adjusted pinball loss on the coldest day is now weighted twice as heavy as the warmest day. When minimizing the adjusted pinball loss a quantile will be fit better to the coldest days. These weights are visualized in Figure \ref{fig:weighting}.
 
+\begin{figure} \label{fig:weighting}
+	\centering
+	\includegraphics[scale=0.4]{weighting.png}
+	\caption{Weighting of pinball loss optimization}
+\end{figure}
 
 \subsection{Estimating Extreme High Quantiles}
 
-When estimating in the extreme quantiles, you are like to get some wild results. At high enough quantiles with little data, quantile regression will fit a line through the two most extreme outliers (given a 2 parameter model). We have already begun to mitigate this by weighting the optimization of the coldest points rather than removing non-extreme cold data. We further account for this by using composite quantile regression (also known as weighted quantile regression, or Hogg's method \cite{}). Composite quantile regression allows us to determine the temperature parameter using less extreme quantiles, leaving only the bias parameter to be determined for the extreme high quantile.
+When estimating in the extreme quantiles, you are like to get some wild results. At high enough quantiles with little data, quantile regression will fit a line through the two most extreme outliers (given a 2 parameter model). We have already begun to mitigate this by weighting the optimization of the coldest points rather than removing non-extreme cold data. We further account for this by using composite quantile regression (also known as weighted quantile regression, or Hogg's method \cite{koenker2004quantile}). Composite quantile regression allows us to determine the temperature parameter using less extreme quantiles, leaving only the bias parameter to be determined for the extreme high quantile.
 
 \subsection{Long Term Out Of Sample Uncertainty} \label{longterm}
 
-It is well known that errors are greater in magnitude for out-of-sample testing than in-sample testing [does this need a cite?]. Since we are forecasting the quantile for the following year, we need to adjust based on out-of-sample uncertainty. We first train (detrend data and perform quantile regression) our model on a single year of data. We then validate on a single year of data and re-fit the bias term based on the residuals. We record the change in the bias term. This process is repeated using the first two years as a training set and the third as a validation set, then again until the last year of data is used as the validation set. We determine the mean absolute change of the bias term. Finally, we fit a model to all of the data. We add the mean absolute change to the bias term in order to account for the out-of-sample uncertainty.
+It is well known that errors are often greater in magnitude for out-of-sample testing than in-sample testing. Since we are forecasting the quantile for the following year, we need to adjust based on out-of-sample uncertainty. We first train (detrend data and perform quantile regression) our model on a single year of data. We then validate on a single year of data and re-fit the bias term based on the residuals. We record the change in the bias term. This process is repeated using the first two years as a training set and the third as a validation set, then again until the last year of training data is used as the validation set. We determine the mean absolute change of the bias term. Finally, we fit a model to all of the training data. We add the mean absolute change to the bias term in order to account for the out-of-sample uncertainty.
 
 \section{Results}
 
@@ -104,12 +107,11 @@ The experiment is run on the 100 most temperature sensitive datasets GasDay fore
 
 Our experiment reflects our goal; we need to estimate the quantile representing demand that is exceeded 0.62\% of days in a heating season. We therefore count the number of exceedances of the quantile in the test set. In particular, we want to coldest days in winter. We therefore limit our analysis to the 10\% coldest days of the test set.
 
-% make table
-
- In total, our method incurs --\% of the expected exceedances. For the sake of evaluating the strategy for dealing with long-term out of sample uncertainty described in Section \ref{longterm}, we evaluated our experiment absent of said strategy. The result showed our bounds unreasonably tight with over 200\% of the expected exceedances.
+ Across the two test folds, we expect 44.70 exceedances. In total, our method incurs 38 exceedances: 85.0\% of the expected exceedances. For the sake of evaluating the strategy for dealing with long-term out of sample uncertainty described in Section \ref{longterm}, we evaluated our experiment absent of said strategy. The result showed our bounds unreasonably tight with over 200\% of the expected exceedances.
 
 \section{Conclusion}
 
+This work introduces an interesting problem to the forecasting community: forecasting the Design Day demand. Using methods common in forecasting literature - along with novel extensions - we are able to successfully predict the demand that is extremely unlikely to be exceeded during the Design Day. 
 
 
 
