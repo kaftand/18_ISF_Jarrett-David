@@ -1,45 +1,40 @@
 \begin{thebibliography}{1}
 
-\bibitem{chernozhukov2005extremal}
-Victor Chernozhukov.
-\newblock Extremal quantile regression.
-\newblock {\em Annals of Statistics}, pages 806--839, 2005.
-
-\bibitem{koenker2004quantile}
-Roger Koenker.
-\newblock Quantile regression for longitudinal data.
-\newblock {\em Journal of Multivariate Analysis}, 91(1):74--89, 2004.
-
-\bibitem{koenker1978regression}
-Roger Koenker and Gilbert Bassett~Jr.
-\newblock Regression quantiles.
-\newblock {\em Econometrica: journal of the Econometric Society}, pages 33--50,
-  1978.
-
-\bibitem{kotz2000extreme}
-Samuel Kotz and Saralees Nadarajah.
-\newblock {\em Extreme value distributions: theory and applications}.
-\newblock World Scientific, 2000.
+\bibitem{vitullo2009mathematical}
+S.~Vitullo, R.~H. Brown, G.~F. Corliss, and B.~M. Marx, ``Mathematical models
+  for natural gas forecasting,'' {\em Canadian applied mathematics quarterly},
+  2009.
 
 \bibitem{murphy1991probabilities}
-Allan~H Murphy.
-\newblock Probabilities, odds, and forecasts of rare events.
-\newblock {\em Weather and forecasting}, 6(2):302--307, 1991.
+A.~H. Murphy, ``Probabilities, odds, and forecasts of rare events,'' {\em
+  Weather and forecasting}, vol.~6, no.~2, pp.~302--307, 1991.
 
-\bibitem{toth2003probability}
-Zoltan Toth, Olivier Talagrand, Guillem Candille, and Yuejian Zhu.
-\newblock Probability and ensemble forecasts, 2003.
+\bibitem{koenker1978regression}
+R.~Koenker and G.~Bassett~Jr, ``Regression quantiles,'' {\em Econometrica:
+  Journal of the Econometric Society}, pp.~33--50, 1978.
 
-\bibitem{vitullo2009mathematical}
-Steven Vitullo, Ronald~H Brown, George~F Corliss, and Brian~M Marx.
-\newblock Mathematical models for natural gas forecasting.
-\newblock {\em Canadian applied mathematics quarterly}, 2009.
+\bibitem{chernozhukov2005extremal}
+V.~Chernozhukov, ``Extremal quantile regression,'' {\em Annals of Statistics},
+  pp.~806--839, 2005.
 
 \bibitem{wang2012estimation}
-Huixia~Judy Wang, Deyuan Li, and Xuming He.
-\newblock Estimation of high conditional quantiles for heavy-tailed
-  distributions.
-\newblock {\em Journal of the American Statistical Association},
-  107(500):1453--1464, 2012.
+H.~J. Wang, D.~Li, and X.~He, ``Estimation of high conditional quantiles for
+  heavy-tailed distributions,'' {\em Journal of the American Statistical
+  Association}, vol.~107, no.~500, pp.~1453--1464, 2012.
+
+\bibitem{koenker2004quantile}
+R.~Koenker, ``Quantile regression for longitudinal data,'' {\em Journal of
+  Multivariate Analysis}, vol.~91, no.~1, pp.~74--89, 2004.
+
+\bibitem{DKaftan2018}
+D.~Kaftan, ``Design day analysis - forecasting extreme daily natural gas
+  demand,'' Master's thesis, Marquette University, Department of Electrical and
+  Computer Engineering, Milwaukee, WI, 2018.
+
+\bibitem{brown2015detrending}
+R.~H. Brown, S.~R. Vitullo, G.~F. Corliss, M.~Adya, P.~E. Kaefer, and R.~J.
+  Povinelli, ``Detrending daily natural gas consumption series to improve
+  short-term forecasts,'' in {\em Power \& Energy Society General Meeting, 2015
+  IEEE}, pp.~1--5, IEEE, 2015.
 
 \end{thebibliography}

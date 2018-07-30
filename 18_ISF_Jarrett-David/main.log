@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  20 JUL 2018 21:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  31 JUL 2018 02:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -522,32 +522,44 @@ File: weighting.png Graphic file (type png)
 <use weighting.png>
 Package pdftex.def Info: weighting.png used on input line 92.
 (pdftex.def)             Requested size: 246.11513pt x 144.13594pt.
- [4 <./weighting.png>] (./main.bbl [5]) [6] (./main.aux) ) 
+ <composite.png, id=27, 442.2924pt x 339.1872pt>
+File: composite.png Graphic file (type png)
+
+<use composite.png>
+Package pdftex.def Info: composite.png used on input line 101.
+(pdftex.def)             Requested size: 309.60257pt x 237.42941pt.
+ [4 <./weighting.png>]
+<bienLab3.png, id=32, 1067.99pt x 861.2175pt>
+File: bienLab3.png Graphic file (type png)
+ <use bienLab3.png>
+Package pdftex.def Info: bienLab3.png used on input line 115.
+(pdftex.def)             Requested size: 320.39948pt x 258.36723pt.
+ [5 <./composite.png>] (./main.bbl [6 <./bienLab3.png (PNG copy)>]) [7] (./main
+.aux) ) 
 Here is how much of TeX's memory you used:
- 2439 strings out of 493014
- 31461 string characters out of 6133351
- 96847 words of memory out of 5000000
- 5950 multiletter control sequences out of 15000+600000
+ 2451 strings out of 493014
+ 31642 string characters out of 6133351
+ 96863 words of memory out of 5000000
+ 5960 multiletter control sequences out of 15000+600000
  9976 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,6n,23p,1081b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on main.pdf (6 pages, 688418 bytes).
+ 37i,7n,23p,1081b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
+0.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.p
+fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/
+texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on main.pdf (7 pages, 824042 bytes).
 PDF statistics:
- 76 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
+ 84 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
