@@ -110,7 +110,7 @@ It is well known that errors are often greater for out-of-sample testing than fo
 
 The experiment is run on the 100 most temperature-sensitive datasets GasDay forecasts. The experiment is run in two folds. First, we hold out the 2017 heating season for testing, and we train on all previous years. Second, we hold out the 2016 heating season for testing and train on all previous years.
 
-Our experiment reflects our goal; we need to estimate the quantile representing demand that is exceeded 0.62\% (100\% - 99.38\%) of days in a heating season. We therefore count the number of exceedances of the quantile in the test set. In particular, we want the coldest days in winter. We therefore limit our analysis to the 10\% coldest days of the test set, as seen in Figure \ref{qrResults}.
+Our experiment reflects our goal; we need to estimate the quantile representing demand that is exceeded 0.62\% (100\% - 99.38\%) of days in a heating season. We therefore count the number of exceedances of the quantile in the test set. In particular, we want to perform well during the coldest days in winter. We therefore limit our analysis to the 10\% coldest days of the test set, as seen in Figure \ref{qrResults}.
 \begin{figure}
 	\includegraphics[scale=0.3]{bienLab3.png}
 	\caption{Anonymized fit of the 99.38\textsuperscript{th} and 0.62\textsuperscript{th} quantiles on the coldest days}\label{qrResults}
